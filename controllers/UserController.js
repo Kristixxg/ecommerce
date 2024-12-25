@@ -1,6 +1,6 @@
 import { User } from "../models/User.js";
 
-const getUserById = async (req, res) => {
+export const getUserById = async (req, res) => {
   try {
     const { id } = req.params;
 
@@ -16,7 +16,7 @@ const getUserById = async (req, res) => {
   }
 };
 
-const postCreateUser = async (req, res) => {
+export const postCreateUser = async (req, res) => {
   try {
     const existingUsername = await User.findOne({
       username: req.body.username,
