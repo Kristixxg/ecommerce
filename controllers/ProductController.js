@@ -1,10 +1,19 @@
 import { Product } from "../models/Product.js";
 import { User } from "../models/User.js";
 
-export const getAllProducts = async (req, res) => {
+export const getProducts = async (req, res) => {
   try {
-    const allproducts = await Product.find();
-    return res.status(200).json(allproducts);
+    const page = parseInt(req.query.page) || 1;
+    const limit = 9;
+    const start = (page - 1) * limit;
+    const end = page * 9;
+    const products = await Product.find();
+    const totalPages = Math.ceil(products.length / limit);
+    const paginatedProducts = products.slice(start, end);
+    return res.status(200).json({
+      products: paginatedProducts,
+      totalPages,
+    });
   } catch (error) {
     return res.status(500).json({ message: "Internal server error" });
   }

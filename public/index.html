@@ -4,9 +4,163 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Ecommerce Store for Matcha Lovers</title>
+    <link href="styles.css" rel="stylesheet" />
   </head>
   <body>
-    <h1>Welcome!</h1>
+    <header class="flex items-center justify-between">
+      <div>
+        <img
+          class="w-16 m-2"
+          src="https://global.tokichi.jp/cdn/shop/files/maruto_ico_g.webp?v=1678952493&width=500"
+          alt="store logo"
+        />
+      </div>
+      <div class="flex">
+        <div class="flex items-center">
+          <button id="searchBtn">
+            <img
+              class="w-6 h-6 opacity-70"
+              src="https://cdn-icons-png.flaticon.com/128/9479/9479251.png"
+              alt="search logo"
+            />
+          </button>
+          <input
+            class="border border-slate-400 rounded-2xl placeholder:text-sm text-sm placehodler-:text-slate-400 ml-1 my-2 pl-2 py-1 w-52 focus:outline-none"
+            type="text"
+            placeholder="Search"
+            name="search"
+            id="userInput"
+          />
+        </div>
+        <div class="flex ml-6 mr-4 items-center">
+          <a target="_blank" href="./login.html">
+            <img
+              class="w-8 h-8 opacity-70"
+              src="https://cdn-icons-png.flaticon.com/128/3293/3293331.png"
+              alt="login icon"
+            />
+          </a>
+          <a href="">
+            <img
+              class="ml-1 w-8 h-8 opacity-70"
+              src="https://cdn-icons-png.flaticon.com/128/833/833314.png"
+              alt="cart icon"
+            />
+          </a>
+        </div>
+      </div>
+    </header>
+    <div class="h-screen overflow-hidden" id="coverDiv">
+      <img
+        src="https://global.tokichi.jp/cdn/shop/files/sp_top_202210_26.webp?v=1676857752&width=2000"
+        alt="Store Cover Page"
+        class="w-screen object-cover"
+      />
+    </div>
+
+    <div class="flex m-20">
+      <nav class="w-1/6" id="navigationLeft">
+        <div id="filterPanel">
+          <div id="brandDiv">
+            <h4 class="mb-2 text-slate-600">Brand</h4>
+            <div class="flex flex-col">
+              <label for="brand"
+                ><input
+                  class="mr-3"
+                  type="checkbox"
+                  name="Nakamura Tokichi"
+                  value="Nakamura Tokichi"
+                />Nakamura Tokichi</label
+              >
+              <label for="brand"
+                ><input
+                  class="mr-3"
+                  type="checkbox"
+                  name="Marukyu Koyamaen"
+                  value="Marukyu Koyamaen"
+                />Marukyu Koyamaen</label
+              >
+              <label for="brand"
+                ><input
+                  class="mr-3"
+                  type="checkbox"
+                  name="Ippodo Tea"
+                  value="Ippodo Tea"
+                />Ippodo Tea</label
+              >
+              <label for="brand"
+                ><input
+                  class="mr-3"
+                  type="checkbox"
+                  name="Kettl"
+                  value="Kettl"
+                />Kettl</label
+              >
+              <label for="brand"
+                ><input
+                  class="mr-3"
+                  type="checkbox"
+                  name="Blue Bottle"
+                  value="Blue Bottle"
+                />Blue Bottle</label
+              >
+            </div>
+          </div>
+          <hr class="my-3" />
+          <div class="" id="categoryDiv">
+            <h4 class="mb-2 text-slate-600">Category</h4>
+            <div class="flex flex-col">
+              <label for="category"
+                ><input
+                  class="mr-3"
+                  type="checkbox"
+                  name=""
+                  value=""
+                />Matcha</label
+              >
+              <label for="category"
+                ><input
+                  class="mr-3"
+                  type="checkbox"
+                  name=""
+                  value=""
+                />Brewware</label
+              >
+              <label for="category"
+                ><input
+                  class="mr-3"
+                  type="checkbox"
+                  name=""
+                  value=""
+                />Drinkware</label
+              >
+            </div>
+          </div>
+        </div>
+        <div id="favoritesDiv" class="flex flex-col"></div>
+      </nav>
+
+      <div class="flex flex-col justify-center items-center w-5/6">
+        <div id="displayAllProducts" class="flex flex-wrap"></div>
+        <div class="pagination mt-10">
+          <button
+            class="hover:bg-slate-600 hover:text-white border border-slate-600 rounded p-1"
+            id="prev-btn"
+          >
+            Previous
+          </button>
+          <button
+            class="hover:bg-slate-600 hover:text-white border border-slate-600 rounded p-1"
+            id="next-btn"
+          >
+            Next
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <br /><br /><br /><br /><br /><br /><br /><br />
+    <footer></footer>
   </body>
-  <script src="script.js"></script>
+  <script src="index.js"></script>
 </html>
