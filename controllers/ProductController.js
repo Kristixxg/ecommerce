@@ -4,10 +4,32 @@ import { User } from "../models/User.js";
 export const getProducts = async (req, res) => {
   try {
     const page = parseInt(req.query.page) || 1;
+    const { brand, type } = req.query;
+
+    let products = [];
+    if (!brand && !type) {
+      products = await Product.find();
+    } else if (!brand) {
+      const typeArr = type.split(";");
+      products = await Product.find({ category: { $in: typeArr } });
+      console.log(products);
+    } else if (!type) {
+      const brandArr = brand.split(";");
+      products = await Product.find({ brand: { $in: brandArr } });
+      console.log(products);
+    } else {
+      const typeArr = type.split(";");
+      const brandArr = brand.split(";");
+      products = await Product.find({
+        brand: { $in: brandArr },
+        category: { $in: typeArr },
+      });
+    }
+
     const limit = 9;
     const start = (page - 1) * limit;
     const end = page * 9;
-    const products = await Product.find();
+
     const totalPages = Math.ceil(products.length / limit);
     const paginatedProducts = products.slice(start, end);
     return res.status(200).json({

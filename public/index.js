@@ -3,50 +3,61 @@ const prevBtn = document.getElementById("prev-btn");
 const nextBtn = document.getElementById("next-btn");
 const SignInBtn = document.getElementById("signIn");
 const searchBtn = document.getElementById("searchBtn");
+const pageNum = document.getElementById("pageNum");
+const filterPanelDiv = document.getElementById("filterPanel");
+const brandDiv = document.getElementById("brandDiv");
+const categoryDiv = document.getElementById("categoryDiv");
 
 let currentPage = 1;
 let totalPage = 0;
 
-const fetchProducts = async () => {
-  try {
-    const res = await fetch(`/products?page=${currentPage}`);
-    if (!res.ok) {
-      throw new Error(
-        `Error fetching data, error status: ${res.status} and error message" ${res.message}`
-      );
-      return;
-    }
-    const datajson = await res.json();
-    totalPage = datajson.totalPages;
-    displayProducts(datajson.products);
-  } catch (error) {
-    console.error(`Unable to get response, error: ${error}`);
-  }
-};
-fetchProducts();
+// const fetchProducts = async () => {
+//   try {
+//     const res = await fetch(`/products?page=${currentPage}`);
+//     if (!res.ok) {
+//       throw new Error(
+//         `Error fetching data, error status: ${res.status} and error message" ${res.message}`
+//       );
+//       return;
+//     }
+//     const datajson = await res.json();
+//     totalPage = datajson.totalPages;
+//     // console.log(totalPage);
+//     displayProducts(datajson.products);
+//   } catch (error) {
+//     console.error(`Unable to get response, error: ${error}`);
+//   }
+// };
+// fetchProducts();
 
 nextBtn.addEventListener("click", () => {
-  // if (currentPage === totalPage) {
-  //   nextBtn.disabled = true;
-  // }
+  // console.log("nextBtn clicked, current page: ", currentPage);
   currentPage++;
-  console.log(currentPage);
-  fetchProducts();
+  // console.log("nextBtn clicked, current page added one: ", currentPage);
+  pageNum.innerText = "Page" + currentPage;
+  if (currentPage === totalPage) {
+    nextBtn.disabled = true;
+  }
+  getSelectedBoxes();
 });
 
-prevBtn.addEventListener("click", (e) => {
-  // if (currentPage === 1) {
-  //   prevBtn.disabled = true;
-  // }
-  if (currentPage > 1) {
-    currentPage--;
-    fetchProducts();
+prevBtn.addEventListener("click", () => {
+  // console.log("Prev clicked, current page: ", currentPage);
+  currentPage--;
+  // console.log("Prev clicked, current page minus one: ", currentPage);
+  pageNum.innerText = "Page" + currentPage;
+  if (currentPage === 1) {
+    prevBtn.disabled = true;
   }
-  console.log(currentPage);
+  getSelectedBoxes();
 });
 
 const displayProducts = async (arr) => {
   displayDiv.innerHTML = "";
+
+  if (arr.length === 0) {
+    displayDiv.innerHTML = `<p>No Product Found.</p>`;
+  }
 
   arr.forEach((element) => {
     const productDiv = `
@@ -60,3 +71,55 @@ const displayProducts = async (arr) => {
     displayDiv.innerHTML += productDiv;
   });
 };
+
+const getSelectedBoxes = async () => {
+  const selectedBrands = brandDiv.querySelectorAll(
+    'input[type="checkbox"]:checked'
+  );
+  console.log(selectedBrands);
+  const brandList = [];
+  selectedBrands.forEach((ele) => brandList.push(ele.value));
+  console.log(brandList);
+  const selectedCategories = categoryDiv.querySelectorAll(
+    'input[type="checkbox"]:checked'
+  );
+  const categorylist = [];
+  selectedCategories.forEach((ele) => categorylist.push(ele.value));
+  console.log(categorylist);
+  getFilteredProducts(brandList, categorylist);
+};
+
+const getFilteredProducts = async (brandArr, categoryArr) => {
+  try {
+    let url = `/products?page=${currentPage}`;
+
+    if (categoryArr.length !== 0 && brandArr.length !== 0) {
+      url = url.concat(
+        `&brand=${brandArr.join(";")}&type=${categoryArr.join(";")}`
+      );
+    } else if (brandArr.length === 0) {
+      url += `&type=${categoryArr.join(";")}`;
+    } else if (categoryArr.length === 0) {
+      url += `&brand=${brandArr.join(";")}`;
+    }
+
+    // url = url.toLowerCase();
+    console.log(url);
+    const res = await fetch(url);
+    if (!res.ok) {
+      console.log("Error getting products", res.message);
+      displayProducts([]);
+      return;
+    }
+
+    const datajson = await res.json();
+    const data = datajson.products;
+    console.log(data);
+    displayProducts(data);
+  } catch (error) {
+    console.error(error);
+    displayProducts([]);
+  }
+};
+getSelectedBoxes();
+filterPanelDiv.addEventListener("change", getSelectedBoxes);

@@ -7,8 +7,8 @@ const ProductSchema = new Schema(
     price: { type: Number, required: true },
     brand: { type: String, required: true },
     category: { type: String, required: true },
+    imageURL: { type: String, required: true },
     favoritedBy: [{ type: Schema.Types.ObjectId, ref: "User" }],
-    imageURL: { type: String },
   },
   { collection: "products" }
 );
