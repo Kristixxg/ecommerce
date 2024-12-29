@@ -74,6 +74,7 @@ const getFilteredProducts = async (brandArr, categoryArr) => {
     totalPage = datajson.totalPages;
     const data = datajson.products;
     // console.log(data);
+    // console.log(totalPage);
     displayProducts(data);
   } catch (error) {
     console.error(error);
@@ -91,7 +92,7 @@ const displayProducts = async (arr) => {
   arr.forEach((element) => {
     const productDiv = `
      <div class="flex flex-col flex-none basis-1/3 p-2">
-      <img src="${element.imageURL}" alt="${element.name}">
+     <a target="_blank" href="productDetails.html?id=${element._id}"> <img src="${element.imageURL}" alt="${element.name}"></a>
       <div>
        <p>${element.name}</p>
        <p><span>$</span>${element.price}<span>USD</span></p>
@@ -101,26 +102,31 @@ const displayProducts = async (arr) => {
   });
 };
 
+
 getSelectedBoxes();
 filterPanelDiv.addEventListener("change", getSelectedBoxes);
 
 nextBtn.addEventListener("click", () => {
   prevBtn.disabled = false;
-  console.log("nextBtn clicked, current page: ", currentPage);
+  if (totalPage === 1) {
+    nextBtn.disabled = true;
+    return;
+  }
   currentPage++;
-  console.log("nextBtn clicked, current page added one: ", currentPage);
-  pageNum.innerText = "Page" + currentPage;
   if (currentPage === totalPage) {
     nextBtn.disabled = true;
   }
+  pageNum.innerText = "Page" + currentPage;
   getSelectedBoxes();
 });
 
 prevBtn.addEventListener("click", () => {
   nextBtn.disabled = false;
-  console.log("Prev clicked, current page: ", currentPage);
+  if (currentPage === 1) {
+    prevBtn.disabled = true;
+    return;
+  }
   currentPage--;
-  console.log("Prev clicked, current page minus one: ", currentPage);
   pageNum.innerText = "Page" + currentPage;
   if (currentPage === 1) {
     prevBtn.disabled = true;
@@ -128,3 +134,5 @@ prevBtn.addEventListener("click", () => {
   }
   getSelectedBoxes();
 });
+
+

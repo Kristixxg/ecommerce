@@ -34,3 +34,5 @@ export const postCreateUser = async (req, res) => {
     res.status(500).json(error);
   }
 };
+
+export const getUserFavProducts = async (req, res) => {};

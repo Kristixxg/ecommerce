@@ -41,6 +41,29 @@ export const getProducts = async (req, res) => {
   }
 };
 
+export const getProductbyId = async (req, res) => {
+  try {
+    const { id } = req.params;
+    console.log(id);
+    const product = await Product.findById(id);
+    console.log(product);
+    if (!product) {
+      res.status(404).json({ message: "Product not found" });
+      return;
+    }
+
+    const brand = product.brand;
+    const recommendations = await Product.find({
+      brand,
+      _id: { $ne: id },
+    });
+
+    res.status(200).json({ product, recommendations });
+  } catch (error) {
+    res.status(500).json({ message: "Internal Server Error" });
+  }
+};
+
 export const postCreateFavorite = async (req, res) => {
   try {
     const { userId, productId } = req.params;

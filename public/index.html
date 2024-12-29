@@ -15,7 +15,30 @@
           alt="store logo"
         />
       </div>
-      <div class="flex">
+      <div class="flex items-center">
+        <a href="./signup.html"
+          ><button
+            class="w-20 h-8 border border-slate-600 hover:bg-slate-600 hover:text-white text-slate-600 text-sm rounded-xl"
+          >
+            Sign Up
+          </button>
+        </a>
+        <a href="./login.html">
+          <button
+            class="w-20 h-8 mx-2 border border-slate-600 hover:bg-slate-600 hover:text-white text-slate-600 text-sm rounded-xl"
+          >
+            Login
+          </button>
+        </a>
+      </div>
+      <div class="hidden">
+        <button
+          class="w-20 h-8 border mx-2 border-slate-600 hover:bg-slate-600 hover:text-white text-slate-600 text-sm rounded-xl"
+        >
+          Logout
+        </button>
+      </div>
+      <div class="hidden">
         <div class="flex items-center">
           <button id="searchBtn">
             <img
@@ -147,6 +170,8 @@
         </div>
         <div id="favoritesDiv" class="flex flex-col"></div>
       </nav>
+
+    
 
       <div class="flex flex-col justify-center items-center w-5/6">
         <div id="displayAllProducts" class="flex flex-wrap"></div>
