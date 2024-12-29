@@ -2,33 +2,48 @@ const displayDiv = document.getElementById("displayAllProducts");
 const prevBtn = document.getElementById("prev-btn");
 const nextBtn = document.getElementById("next-btn");
 const SignInBtn = document.getElementById("signIn");
+const logoutBtn = document.getElementById("logoutBtn");
 const searchBtn = document.getElementById("searchBtn");
 const pageNum = document.getElementById("pageNum");
 const filterPanelDiv = document.getElementById("filterPanel");
 const brandDiv = document.getElementById("brandDiv");
 const categoryDiv = document.getElementById("categoryDiv");
+const logoutDiv = document.getElementById("logoutDiv");
+const signupDiv = document.getElementById("signupDiv");
 
 let currentPage = 1;
 let totalPage = 0;
 
-// const fetchProducts = async () => {
-//   try {
-//     const res = await fetch(`/products?page=${currentPage}`);
-//     if (!res.ok) {
-//       throw new Error(
-//         `Error fetching data, error status: ${res.status} and error message" ${res.message}`
-//       );
-//       return;
-//     }
-//     const datajson = await res.json();
-//     totalPage = datajson.totalPages;
-//     // console.log(totalPage);
-//     displayProducts(datajson.products);
-//   } catch (error) {
-//     console.error(`Unable to get response, error: ${error}`);
-//   }
-// };
-// fetchProducts();
+let isLoggedIn = window.localStorage.getItem("token") ? true : false;
+
+if (isLoggedIn) {
+  logoutDiv.style.display = "block";
+  signupDiv.style.display = "none";
+}
+
+logoutBtn.addEventListener("click", async () => {
+  try {
+    const res = await fetch("/user/logout", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    if (!res.ok) {
+      alert("Unable to logout");
+      return;
+    }
+
+    const dataJson = await res.json();
+    console.log(dataJson.message);
+    window.localStorage.removeItem("token");
+    window.localStorage.removeItem("username");
+    document.location.href = "/";
+  } catch (error) {
+    console.error(`Error occur: ${error.message}`);
+  }
+});
 
 const getSelectedBoxes = async () => {
   const selectedBrands = brandDiv.querySelectorAll(
@@ -102,7 +117,6 @@ const displayProducts = async (arr) => {
   });
 };
 
-
 getSelectedBoxes();
 filterPanelDiv.addEventListener("change", getSelectedBoxes);
 
@@ -135,4 +149,21 @@ prevBtn.addEventListener("click", () => {
   getSelectedBoxes();
 });
 
-
+// const fetchProducts = async () => {
+//   try {
+//     const res = await fetch(`/products?page=${currentPage}`);
+//     if (!res.ok) {
+//       throw new Error(
+//         `Error fetching data, error status: ${res.status} and error message" ${res.message}`
+//       );
+//       return;
+//     }
+//     const datajson = await res.json();
+//     totalPage = datajson.totalPages;
+//     // console.log(totalPage);
+//     displayProducts(datajson.products);
+//   } catch (error) {
+//     console.error(`Unable to get response, error: ${error}`);
+//   }
+// };
+// fetchProducts();
