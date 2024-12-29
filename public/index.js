@@ -30,27 +30,56 @@ let totalPage = 0;
 // };
 // fetchProducts();
 
-nextBtn.addEventListener("click", () => {
-  // console.log("nextBtn clicked, current page: ", currentPage);
-  currentPage++;
-  // console.log("nextBtn clicked, current page added one: ", currentPage);
-  pageNum.innerText = "Page" + currentPage;
-  if (currentPage === totalPage) {
-    nextBtn.disabled = true;
-  }
-  getSelectedBoxes();
-});
+const getSelectedBoxes = async () => {
+  const selectedBrands = brandDiv.querySelectorAll(
+    'input[type="checkbox"]:checked'
+  );
+  // console.log(selectedBrands);
+  const brandList = [];
+  selectedBrands.forEach((ele) => brandList.push(ele.value));
+  // console.log(brandList);
+  const selectedCategories = categoryDiv.querySelectorAll(
+    'input[type="checkbox"]:checked'
+  );
+  const categorylist = [];
+  selectedCategories.forEach((ele) => categorylist.push(ele.value));
+  // console.log(categorylist);
+  getFilteredProducts(brandList, categorylist);
+};
 
-prevBtn.addEventListener("click", () => {
-  // console.log("Prev clicked, current page: ", currentPage);
-  currentPage--;
-  // console.log("Prev clicked, current page minus one: ", currentPage);
-  pageNum.innerText = "Page" + currentPage;
-  if (currentPage === 1) {
-    prevBtn.disabled = true;
+const getFilteredProducts = async (brandArr, categoryArr) => {
+  try {
+    let url = `/products?page=${currentPage}`;
+
+    if (categoryArr.length !== 0 && brandArr.length !== 0) {
+      url = url.concat(
+        `&brand=${brandArr.join(";")}&type=${categoryArr.join(";")}`
+      );
+    } else if (brandArr.length === 0) {
+      url += `&type=${categoryArr.join(";")}`;
+    } else if (categoryArr.length === 0) {
+      url += `&brand=${brandArr.join(";")}`;
+    }
+
+    // url = url.toLowerCase();
+    // console.log(url);
+    const res = await fetch(url);
+    if (!res.ok) {
+      console.log("Error getting products", res.message);
+      displayProducts([]);
+      return;
+    }
+
+    const datajson = await res.json();
+    totalPage = datajson.totalPages;
+    const data = datajson.products;
+    // console.log(data);
+    displayProducts(data);
+  } catch (error) {
+    console.error(error);
+    displayProducts([]);
   }
-  getSelectedBoxes();
-});
+};
 
 const displayProducts = async (arr) => {
   displayDiv.innerHTML = "";
@@ -72,54 +101,30 @@ const displayProducts = async (arr) => {
   });
 };
 
-const getSelectedBoxes = async () => {
-  const selectedBrands = brandDiv.querySelectorAll(
-    'input[type="checkbox"]:checked'
-  );
-  console.log(selectedBrands);
-  const brandList = [];
-  selectedBrands.forEach((ele) => brandList.push(ele.value));
-  console.log(brandList);
-  const selectedCategories = categoryDiv.querySelectorAll(
-    'input[type="checkbox"]:checked'
-  );
-  const categorylist = [];
-  selectedCategories.forEach((ele) => categorylist.push(ele.value));
-  console.log(categorylist);
-  getFilteredProducts(brandList, categorylist);
-};
-
-const getFilteredProducts = async (brandArr, categoryArr) => {
-  try {
-    let url = `/products?page=${currentPage}`;
-
-    if (categoryArr.length !== 0 && brandArr.length !== 0) {
-      url = url.concat(
-        `&brand=${brandArr.join(";")}&type=${categoryArr.join(";")}`
-      );
-    } else if (brandArr.length === 0) {
-      url += `&type=${categoryArr.join(";")}`;
-    } else if (categoryArr.length === 0) {
-      url += `&brand=${brandArr.join(";")}`;
-    }
-
-    // url = url.toLowerCase();
-    console.log(url);
-    const res = await fetch(url);
-    if (!res.ok) {
-      console.log("Error getting products", res.message);
-      displayProducts([]);
-      return;
-    }
-
-    const datajson = await res.json();
-    const data = datajson.products;
-    console.log(data);
-    displayProducts(data);
-  } catch (error) {
-    console.error(error);
-    displayProducts([]);
-  }
-};
 getSelectedBoxes();
 filterPanelDiv.addEventListener("change", getSelectedBoxes);
+
+nextBtn.addEventListener("click", () => {
+  prevBtn.disabled = false;
+  console.log("nextBtn clicked, current page: ", currentPage);
+  currentPage++;
+  console.log("nextBtn clicked, current page added one: ", currentPage);
+  pageNum.innerText = "Page" + currentPage;
+  if (currentPage === totalPage) {
+    nextBtn.disabled = true;
+  }
+  getSelectedBoxes();
+});
+
+prevBtn.addEventListener("click", () => {
+  nextBtn.disabled = false;
+  console.log("Prev clicked, current page: ", currentPage);
+  currentPage--;
+  console.log("Prev clicked, current page minus one: ", currentPage);
+  pageNum.innerText = "Page" + currentPage;
+  if (currentPage === 1) {
+    prevBtn.disabled = true;
+    console.log("prev button disabled");
+  }
+  getSelectedBoxes();
+});
