@@ -33,13 +33,51 @@ export const postUserSignup = async (req, res) => {
     const token = generateToken(user._id, username);
     console.log("token: ", token);
 
-    return res.status(201).json({ token });
+    return res.status(201).json({ token, user });
   } catch (error) {
     res.status(500).json({ message: "Cannot create user" });
   }
 };
 
-export const getUserFavProducts = async (req, res) => {};
+export const getUserFavProducts = async (req, res) => {
+  try {
+    const { userId } = req.body;
+    const user = await User.findById(userId).populate("favorites");
+
+    if (!user) {
+      res.status(404).json({ message: "User not found" });
+      return;
+    }
+
+    const products = user.favorites;
+
+    res.status(200).json({ products, user });
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+export const deleteUserFavoritebyId = async (req, res) => {
+  try {
+    const { userId, productId } = req.body;
+    console.log(userId, productId);
+
+    const updatedUser = await User.findByIdAndUpdate(
+      userId,
+      { $pull: { favorites: productId } }, // Remove the productId from favorites
+      { new: true } // Return the updated document
+    );
+    if (!updatedUser) {
+      return res.status(404).json({ message: "User not found" });
+    }
+    return res.status(200).json({
+      message: "Product removed from favorites successfully",
+      favorites: updatedUser.favorites, // Return updated favorites array
+    });
+  } catch (error) {
+    return res.status(500).json({ message: "Internal server error" });
+  }
+};
 
 export const getUserById = async (req, res) => {
   try {
@@ -72,10 +110,13 @@ export const postUserSignin = async (req, res) => {
       return res.status(401).json({ message: "Invalid login" });
     }
 
+    const role = user.role;
+    console.log(role);
+
     const token = generateToken(user._id, username);
     console.log(token);
 
-    return res.status(200).json({ token, userId: user._id });
+    return res.status(200).json({ token, userId: user._id, role });
   } catch (error) {
     res.status(500).json({ message: "Server Internal Error" });
   }
@@ -85,5 +126,15 @@ export const postUserlogout = async (req, res) => {
     return res.status(200).json({ message: "You are logged out" });
   } catch (error) {
     res.status(500).json({ message: "logout failed" });
+  }
+};
+
+export const getAll = async (req, res) => {
+  try {
+    const users = await User.find().populate("favorites");
+    console.log(users);
+    res.status(200).json(users);
+  } catch (error) {
+    res.status(500).json({ message: "internal server error" });
   }
 };

@@ -6,6 +6,16 @@
     <title>Ecommerce Store for Matcha Lovers</title>
     <link href="styles.css" rel="stylesheet" />
   </head>
+  <style>
+    .key {
+      font-weight: bold;
+    }
+    .object {
+      border: 1px solid black;
+      margin: 10px;
+      padding: 10px;
+    }
+  </style>
   <body>
     <header class="flex items-center justify-between">
       <div>
@@ -35,7 +45,7 @@
       </div>
       <div id="logoutDiv" class="hidden">
         <button
-        id="logoutBtn"
+          id="logoutBtn"
           class="w-20 h-8 border mx-2 border-slate-600 hover:bg-slate-600 hover:text-white text-slate-600 text-sm rounded-xl"
         >
           Logout
@@ -76,7 +86,7 @@
         </div>
       </div>
     </header>
-    <div class="h-screen overflow-hidden" id="coverDiv">
+    <div class="h-[50rem] max-h-[50rem] overflow-hidden" id="coverDiv">
       <img
         src="https://global.tokichi.jp/cdn/shop/files/sp_top_202210_26.webp?v=1676857752&width=2000"
         alt="Store Cover Page"
@@ -84,8 +94,8 @@
       />
     </div>
 
-    <div class="flex m-20">
-      <nav class="w-1/6" id="navigationLeft">
+    <div id="main" class="flex m-20">
+      <nav class="w-1/6 mr-4" id="navigationLeft">
         <div id="filterPanel">
           <div id="brandDiv">
             <h4 class="mb-2 text-slate-600">Brand</h4>
@@ -171,7 +181,12 @@
             </div>
           </div>
         </div>
-        <div id="favoritesDiv" class="flex flex-col"></div>
+        <hr class="my-3" />
+      
+        <div
+          id="favoritesDiv"
+          class="hidden flex-col overflow-y-auto max-h-[1200px] space-y-4 p-4 border mt-6 border-gray-300 rounded"
+        ></div>
       </nav>
 
       <div class="flex flex-col justify-center items-center w-5/6">
@@ -194,8 +209,10 @@
       </div>
     </div>
 
-    <br /><br /><br /><br /><br /><br /><br /><br />
-    <footer></footer>
+    <div class="hidden" id="admin"></div>
+    <div id="json-container"></div>
+
+    <br />
   </body>
   <script src="index.js"></script>
 </html>

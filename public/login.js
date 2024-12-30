@@ -25,16 +25,16 @@ loginButton.addEventListener("click", async () => {
     }
 
     const dataJson = await res.json();
-    const { token, userId } = dataJson;
+    const { token, userId, role } = dataJson;
 
     // currentUserId = dataJson.userId;
     // console.log(dataJson.userId);
 
     window.localStorage.setItem("username", data.username);
     window.localStorage.setItem("token", token);
+    window.localStorage.setItem("id", userId);
+    window.localStorage.setItem("role", role);
     document.location.href = "/";
-    // renderLikedSongs(currentUserId);
-    // renderArtists(currentUserId);
   } catch (error) {
     console.error(`Login unsucessfully: ${error}`);
   }

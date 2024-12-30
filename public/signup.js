@@ -26,10 +26,11 @@ signupButton.addEventListener("click", async () => {
 
     const dataJson = await res.json();
     console.log(dataJson);
-    const { token } = dataJson;
-    window.localStorage.setItem("token", token);
-    window.localStorage.setItem("username", data.username);
-    document.location.href = "/";
+    const { token, user } = dataJson;
+    // window.localStorage.setItem("token", token);
+    // window.localStorage.setItem("username", data.username);
+    // window.localStorage.setItem("id", user._id);
+    document.location.href = "/login.html";
   } catch (error) {
     alert(`Sign up failed: ${error}`);
   }

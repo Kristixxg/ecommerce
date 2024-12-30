@@ -7,6 +7,75 @@
     <link href="styles.css" rel="stylesheet" />
   </head>
   <body class="bg-gray-100">
+    <header class="flex items-center justify-between">
+      <div>
+        <a href="/">
+          <img
+            class="w-16 m-2"
+            src="https://global.tokichi.jp/cdn/shop/files/maruto_ico_g.webp?v=1678952493&width=500"
+            alt="store logo"
+          />
+        </a>
+      </div>
+      <div id="signupDiv" class="flex items-center">
+        <a href="./signup.html"
+          ><button
+            class="w-20 h-8 border border-slate-600 hover:bg-slate-600 hover:text-white text-slate-600 text-sm rounded-xl"
+          >
+            Sign Up
+          </button>
+        </a>
+        <a href="./login.html">
+          <button
+            class="w-20 h-8 mx-2 border border-slate-600 hover:bg-slate-600 hover:text-white text-slate-600 text-sm rounded-xl"
+          >
+            Login
+          </button>
+        </a>
+      </div>
+      <div id="logoutDiv" class="hidden">
+        <button
+          id="logoutBtn"
+          class="w-20 h-8 border mx-2 border-slate-600 hover:bg-slate-600 hover:text-white text-slate-600 text-sm rounded-xl"
+        >
+          Logout
+        </button>
+      </div>
+      <div class="hidden">
+        <div class="flex items-center">
+          <button id="searchBtn">
+            <img
+              class="w-6 h-6 opacity-70"
+              src="https://cdn-icons-png.flaticon.com/128/9479/9479251.png"
+              alt="search logo"
+            />
+          </button>
+          <input
+            class="border border-slate-400 rounded-2xl placeholder:text-sm text-sm placehodler-:text-slate-400 ml-1 my-2 pl-2 py-1 w-52 focus:outline-none"
+            type="text"
+            placeholder="Search"
+            name="search"
+            id="userInput"
+          />
+        </div>
+        <div class="flex ml-6 mr-4 items-center">
+          <a target="_blank" href="./login.html">
+            <img
+              class="w-8 h-8 opacity-70"
+              src="https://cdn-icons-png.flaticon.com/128/3293/3293331.png"
+              alt="login icon"
+            />
+          </a>
+          <a href="">
+            <img
+              class="ml-1 w-8 h-8 opacity-70"
+              src="https://cdn-icons-png.flaticon.com/128/833/833314.png"
+              alt="cart icon"
+            />
+          </a>
+        </div>
+      </div>
+    </header>
     <div
       class="max-w-7xl mx-auto py-8 px-4 sm:px-6 lg:px-8 bg-white shadow-md rounded-lg"
     >
@@ -23,18 +92,13 @@
           </h1>
           <p class="text-gray-500 text-lg mb-2">
             Brand:
-            <span id="productBrand" class="text-gray-700">Example Brand</span>
+            <span id="productBrand" class="text-gray-700"></span>
           </p>
           <p class="text-gray-500 text-lg mb-2">
             Price:
-            <span id="price" class="text-green-500 font-medium">$99.99</span>
+            <span id="price" class="text-green-500 font-medium"></span>
           </p>
-          <p id="productDescription" class="text-gray-600 text-lg mt-4">
-            This is a detailed description of the product, providing
-            comprehensive information about its features, specifications, and
-            qualities. It's designed to attract potential buyers and give them a
-            clear idea of what they can expect.
-          </p>
+          <p id="productDescription" class="text-gray-600 text-lg mt-4"></p>
           <button
             id="favoriteBtn"
             class="mt-6 bg-red-500 text-white py-2 px-6 rounded-lg shadow hover:bg-red-600"

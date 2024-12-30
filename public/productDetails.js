@@ -7,7 +7,37 @@ const priceEl = document.getElementById("price");
 const imgEl = document.getElementById("img");
 const favoriteBtn = document.getElementById("favoriteBtn");
 const recommendationsDiv = document.getElementById("recommendations");
-let isLoggedIn = false;
+favoriteBtn.innerText = "Add to Favorite";
+
+let isLoggedIn = window.localStorage.getItem("token") ? true : false;
+
+if (isLoggedIn) {
+  logoutDiv.style.display = "block";
+  signupDiv.style.display = "none";
+}
+
+logoutBtn.addEventListener("click", async () => {
+  try {
+    const res = await fetch("/user/logout", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    if (!res.ok) {
+      alert("Unable to logout");
+      return;
+    }
+
+    window.localStorage.removeItem("token");
+    window.localStorage.removeItem("username");
+    window.localStorage.removeItem("id");
+    document.location.href = "/";
+  } catch (error) {
+    console.error(`Error occur: ${error.message}`);
+  }
+});
 
 const fetchProductDetails = async () => {
   try {
@@ -24,7 +54,7 @@ const fetchProductDetails = async () => {
     priceEl.innerText = data.price;
     descriptionEl.innerText = data.description;
     imgEl.src = data.imageURL;
-    console.log(recommendations);
+    // console.log(recommendations);
     getMoreBrandProducts(recommendations);
   } catch (error) {
     console.error("Get product details failed, ", error);
@@ -36,12 +66,12 @@ const getMoreBrandProducts = (recArr) => {
   if (recArr.length > 5) {
     recArr.splice(5);
   }
-  console.log(recArr);
+  // console.log(recArr);
   recommendationsDiv.innerHTML = "";
   recArr.forEach((rec) => {
     const div = `
         <div class="bg-white shadow-md rounded-lg overflow-hidden">
-        <a target="_blank" href="productDetails.html?id=${rec._id}"> 
+        <a target="" href="productDetails.html?id=${rec._id}"> 
               <img
                 class="w-full h-40 object-cover"
                 src="${rec.imageURL}"
@@ -59,8 +89,6 @@ const getMoreBrandProducts = (recArr) => {
   });
 };
 
-favoriteBtn.addEventListener("click", favProducts(productId));
-
 const favProduct = async (id) => {
   try {
     if (isLoggedIn === false) {
@@ -68,24 +96,31 @@ const favProduct = async (id) => {
       return;
     }
 
-    const response = await fetch(`/songs/${currentUserId}`, {
-      method: "POST",
+    favoriteBtn.innerText = "Added";
+    const response = await fetch(`/products`, {
+      method: "PUT",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ songId }),
+      body: JSON.stringify({
+        productId: id,
+        userId: window.localStorage.getItem("id"),
+      }),
     });
 
     if (!response.ok) {
-      const errorText = await response.text();
-      alert(`Error: ${response.status} - ${errorText}`);
+      const errorText = await response.json();
+      alert(errorText.message);
+      console.log(`Error: ${response.status} - ${errorText}`);
     }
 
-    const newlyAddedSong = await response.json();
-    // console.log("Newly added song:", newlyAddedSong);
-
-    renderLikedSongs(currentUserId);
+    const dataJson = await response.json();
+    console.log(dataJson.user);
+    // console.log("Newly faved product:", newlyFavedProduct);
+    document.location.href = "/";
   } catch (error) {
-    console.error("Error in likeSong function:", error);
+    console.error("Error in favProduct function:", error);
   }
 };
+
+favoriteBtn.addEventListener("click", () => favProduct(productId));
