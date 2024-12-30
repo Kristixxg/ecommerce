@@ -17,6 +17,10 @@
               id="signup-username"
               class="border border-slate-600 rounded pl-2 py-2 w-80"
               type="text"
+              required
+              minlength="3"
+              maxlength="20"
+              pattern="^[a-zA-Z0-9_\-]+$"
             />
           </div>
           <div class="flex flex-col">
@@ -24,7 +28,8 @@
             <input
               id="signup-email"
               class="border border-slate-600 rounded pl-2 py-2 w-80"
-              type="text"
+              type="email"
+              required
             />
           </div>
           <div class="flex flex-col">
@@ -32,7 +37,9 @@
             <input
               id="signup-password"
               class="border border-slate-600 rounded pl-2 py-2 w-80"
-              type="text"
+              type="password"
+              required
+              minlength="8"
             />
           </div>
         </div>

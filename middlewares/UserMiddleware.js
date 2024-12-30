@@ -1,22 +1,19 @@
-import validator from 'validator';
+import validator from "validator";
 
 const createUserValidation = (req, res, next) => {
   const { username, password } = req.body;
+  console.log("here", username, password);
   if (
     !username ||
     !password ||
     validator.isEmpty(username) ||
     validator.isEmpty(password)
   ) {
-    return res.status(400).json({ message: 'Missing required fields!' });
+    return res.status(400).json({ message: "Missing required fields!" });
   }
 
   if (!validator.isAlphanumeric(username)) {
-    return res.status(400).json({ message: 'Username must be alphanumeric!' });
-  }
-
-  if (!validator.isStrongPassword(password)) {
-    return res.status(400).json({ message: 'Password is too weak!' });
+    return res.status(400).json({ message: "Username must be alphanumeric!" });
   }
 
   next();
@@ -30,11 +27,11 @@ const loginUserValidation = (req, res, next) => {
     validator.isEmpty(username) ||
     validator.isEmpty(password)
   ) {
-    return res.status(400).json({ message: 'Missing required fields!' });
+    return res.status(400).json({ message: "Missing required fields!" });
   }
 
   if (!validator.isAlphanumeric(username)) {
-    return res.status(400).json({ message: 'Username must be alphanumeric!' });
+    return res.status(400).json({ message: "Username must be alphanumeric!" });
   }
 
   next();

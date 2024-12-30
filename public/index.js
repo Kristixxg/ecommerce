@@ -14,6 +14,7 @@ const favoritesDiv = document.getElementById("favoritesDiv");
 const unfavBtns = document.getElementsByClassName("deleteBtn");
 const main = document.getElementById("main");
 const adminDiv = document.getElementById("admin");
+const coverDiv = document.getElementById("coverDiv");
 
 let currentPage = 1;
 let totalPage = 0;
@@ -64,6 +65,8 @@ const getAdminContent = async () => {
 if (role === "admin") {
   main.style.display = "none";
   adminDiv.style.display = "block";
+  coverDiv.style.display = "none";
+
   getAdminContent();
 }
 
@@ -109,7 +112,7 @@ const displayFavoritedProducts = (arr) => {
               class="w-30 object-cover rounded"
             />
             <div class="text-sm font-semibold">${ele.name}</div>
-            <div class="text-sm text-gray-600">${ele.price}</div>
+            <div class="text-sm text-gray-600">$${ele.price} USD</div>
             <button
             data-product-id="${ele._id}"
             class="deleteBtn px-3 py-1 text-sm text-white bg-red-500 rounded hover:bg-red-600"

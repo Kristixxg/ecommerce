@@ -761,6 +761,10 @@ video {
   height: 50rem;
 }
 
+.h-full {
+  height: 100%;
+}
+
 .max-h-\[1200px\] {
   max-height: 1200px;
 }
@@ -783,6 +787,10 @@ video {
 
 .max-h-\[50rem\] {
   max-height: 50rem;
+}
+
+.min-h-80 {
+  min-height: 20rem;
 }
 
 .w-1\/6 {
@@ -1143,6 +1151,11 @@ video {
 .hover\:bg-slate-600:hover {
   --tw-bg-opacity: 1;
   background-color: rgb(71 85 105 / var(--tw-bg-opacity, 1));
+}
+
+.hover\:object-scale-down:hover {
+  -o-object-fit: scale-down;
+     object-fit: scale-down;
 }
 
 .hover\:text-white:hover {

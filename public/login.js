@@ -9,6 +9,20 @@ loginButton.addEventListener("click", async () => {
       password: loginPassword.value,
     };
 
+    const usernameRegex = /^[a-zA-Z0-9_-]{3,20}$/;
+    const passwordMinLength = 8;
+
+    if (!usernameRegex.test(data.username)) {
+      alert(
+        "Invalid username. Only letters, numbers, underscores, and dashes are allowed."
+      );
+      return;
+    }
+    if (data.password.length < passwordMinLength) {
+      alert("Password must be at least 8 characters long.");
+      return;
+    }
+
     console.log(data);
 
     const res = await fetch("/user/signin", {
@@ -20,7 +34,7 @@ loginButton.addEventListener("click", async () => {
     });
 
     if (!res.ok) {
-      alert(`Login failed: ${res.status}`);
+      alert(`Login failed. Error Code: ${res.status} ${res.statusText}`);
       return;
     }
 

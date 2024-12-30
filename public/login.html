@@ -31,6 +31,10 @@
           placeholder="Username"
           id="login-username"
           name="login-username"
+          required
+          minlength="3"
+          maxlength="20"
+          pattern="^[a-zA-Z0-9_-]+$"
         />
         <input
           class="w-96 pl-2 py-2 mt-2 border border-slate-600 rounded"
@@ -38,6 +42,8 @@
           name="login-password"
           id="login-password"
           placeholder="Password"
+          required
+          minlength="8"
         />
         <button
           id="login-button"

@@ -5,6 +5,7 @@ import { generateToken } from "../utils/generateToken.js";
 export const postUserSignup = async (req, res) => {
   try {
     const { username, email, password } = req.body;
+    console.log(username, email, password);
 
     if (!username || !email || !password) {
       return res.status(409).json({ message: "Fields are required!" });
@@ -107,7 +108,7 @@ export const postUserSignin = async (req, res) => {
     const isPasswordCorrect = await argon2.verify(user.password, password);
 
     if (!isPasswordCorrect) {
-      return res.status(401).json({ message: "Invalid login" });
+      return res.status(401).json({ message: "Invalid password" });
     }
 
     const role = user.role;

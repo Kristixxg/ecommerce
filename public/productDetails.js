@@ -33,6 +33,7 @@ logoutBtn.addEventListener("click", async () => {
     window.localStorage.removeItem("token");
     window.localStorage.removeItem("username");
     window.localStorage.removeItem("id");
+    window.localStorage.removeItem("role");
     document.location.href = "/";
   } catch (error) {
     console.error(`Error occur: ${error.message}`);
@@ -51,7 +52,7 @@ const fetchProductDetails = async () => {
     const data = datajson.product;
     nameEl.innerText = data.name;
     brandEl.innerText = data.brand.replace(/([a-z])([A-Z])/g, "$1 $2");
-    priceEl.innerText = data.price;
+    priceEl.innerText = "$" + data.price + "USD";
     descriptionEl.innerText = data.description;
     imgEl.src = data.imageURL;
     // console.log(recommendations);
